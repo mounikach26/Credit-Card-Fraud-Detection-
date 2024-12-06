@@ -1,7 +1,3 @@
-To design a Fraud Detection System for credit cards.
-
-The daily handling of vast volumes of data and the requirement for models to be constructed rapidly enough to identify frauds in time present the key challenges in credit card fraud detection.
-#code
 
 import pandas as pd 
 import numpy as np 
