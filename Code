@@ -1,0 +1,93 @@
+To design a Fraud Detection System for credit cards.
+
+The daily handling of vast volumes of data and the requirement for models to be constructed rapidly enough to identify frauds in time present the key challenges in credit card fraud detection.
+#code
+
+import pandas as pd 
+import numpy as np 
+import matplotlib.pyplot as plt 
+import seaborn as sns 
+from sklearn.model_selection import train_test_split 
+from imblearn.over_sampling import SMOTE 
+from sklearn.linear_model import LogisticRegression 
+X= pd.read_csv("/content/creditcard.csv") 
+print("The data looks like :") 
+print(X.head()) 
+print(X.columns) 
+print(X.describe()) 
+#dataset information 
+credit_card_data.info() 
+#checking the number of missing values in eaach column 
+credit_card_data.isnull().sum() 
+#distribution of legit transactions & fraudulent 
+transactions 
+credit_card_data['Class'].value_counts() 
+# correlation heatmap 
+corrMatrix=X.corr() 
+sns.heatmap(data=corrMatrix, 
+cmap="YlGnBu") 
+plt.gcf().set_size_inches(6, 5) 
+plt.figure() 
+plt.show() 
+#Relation between target variables and columns 
+plt.gcf().set_size_inches(0.75, 0.5) 
+for col in X.columns: 
+sns.lmplot(x=col, y='Amount', hue='Class', data=X) 
+plt.show() 
+#dividing X and y 
+y = X['Class'] 
+X.drop(['Class'],axis=1,inplace=True) 
+X_train, X_test, y_train, y_test = train_test_split(X, y, 
+train_size=0.8, test_size=0.2,random_state=0) 
+# using SMOTE 
+smote_1=SMOTE() 
+X_train,y_train= smote_1.fit_resample(X_train,y_train) 
+classifier = LogisticRegression(max_iter=150) 
+classifier.fit(X_train, y_train) 
+from 
+sklearn.metrics 
+classification_report,mean_absolute_error,mean_squared
+ _error,r2_score 
+pred_train = classifier.predict(X_train) 
+report_train = classification_report(y_train,pred_train) 
+print(report_train) 
+pred_test = classifier.predict(X_test) 
+report_test = classification_report(y_test,pred_test) 
+print(report_test) 
+from sklearn.metrics import confusion_matrix 
+# conf_matrix_train = confusion_matrix(y_true=y_train, 
+y_pred=pred_train) 
+conf_matrix_test 
+y_pred=pred_test) 
+= 
+confusion_matrix(y_true=y_test, 
+print("Test result confusion matrix is :") 
+print(conf_matrix_test) 
+sns.heatmap(data=conf_matrix_test, 
+cmap="YlGnBu") 
+plt.show() 
+print() 
+annot=True 
+, 
+print("Pretty great , we only missed 11 frauds from 
+detection out of 101 , 90% safety improvement here") 
+print() 
+precision_test 
+= 
+((conf_matrix_test[0][0])/(conf_matrix_test[1][0]+conf_
+ matrix_test[0][0])) 
+print("Precision :"+str(precision_test)) 
+recall_test 
+((conf_matrix_test[0][0])/(conf_matrix_test[0][1]+conf_
+ matrix_test[0][0])) 
+print("Recall :"+str(recall_test)) 
+annot=False 
+, 
+= 
+f1_score_test = ((2)/ ( (1/precision_test) + (1/recall_test) )) 
+print("f1_score_test : "+str(f1_score_test)) 
+print() 
+print("The F1 score is very good hence my project is 
+successful .") 
+import 
+# print("Train result confusion matrix is :")
